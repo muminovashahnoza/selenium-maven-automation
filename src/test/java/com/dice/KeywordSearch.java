@@ -35,12 +35,13 @@ public class KeywordSearch {
 	    		    
 	    		 // catch (IOException e) {
 	    	 // System.out.println("IOException was caught");
+	      System.out.println(keywords.size());
 	      
-	       
 	      for(int i=0; i<keywords.size(); i++) {
-	    	  WebDriver driver1 = new ChromeDriver();
+	    	   WebDriver driver1 = new ChromeDriver();
 	    	  //set universal wait time in case web page is slow
 		        driver1.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		        
 	    	  driver1.get("https://www.dice.com");
 	    	  
 	    	  String keyword = keywords.get(i);
