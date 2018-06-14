@@ -1,15 +1,23 @@
 package com.dice;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class DiceTest {
 
-	public static void main(String[] args) {
+	public static void main(String[] args)  {
 		
        WebDriverManager.chromedriver().setup();
        //invoke selenium webdriver
@@ -57,9 +65,21 @@ public class DiceTest {
     	   System.out.println("Step FAILED");
     	   
        }
-       driver.close();
-        System.out.println(count);
+      driver.close();
        
+   
+    		    
+    		 // catch (IOException e) {
+    	 // System.out.println("IOException was caught");
+      
+       
+    
+      
+      
+      
+      
+        System.out.println("Test complited - " + LocalDateTime.now());
+        
        
 	}
 
