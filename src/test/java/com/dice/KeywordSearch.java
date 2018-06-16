@@ -22,13 +22,17 @@ public class KeywordSearch {
 		System.out.println("Test started - " + LocalDateTime.now());
 		
 		
-		 WebDriverManager.chromedriver().setup();
+		 WebDriverManager.chromedriver().setup();   	  
+		 //creating driver object
+	    	   WebDriver driver1 = new ChromeDriver();
+	    	   //maximizing window
+	    	   driver1.manage().window().maximize();
 	      
 	      //creating array list to hold keywords
 		 List<String> keywords = new ArrayList<>();
 	      
 	      String line;   
-	   //read file, using bufeered reader, add keywords in the list
+	   //read file, using buffered reader, add keywords in the list
 	     try ( FileReader fr = new FileReader("keywords.txt");
 	      BufferedReader bf = new BufferedReader(fr); )  {
 	    	  while ( (line = bf.readLine() ) != null) {
@@ -45,11 +49,9 @@ public class KeywordSearch {
 	     * location doesn't change
 	     */
 	    try {
+	   loop:
 	      for(int i=0; i<keywords.size(); i++) {
-	    	  //creating driver object
-	    	   WebDriver driver1 = new ChromeDriver();
-	    	   //maximizing window
-	    	   driver1.manage().window().maximize();
+	 
 	    	  //set universal wait time in case web page is slow
 		   driver1.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		  //go to www.dice.com  
@@ -61,27 +63,35 @@ public class KeywordSearch {
 	     // send location 
 	      driver1.findElement(By.id("search-field-location")).clear();
 	      driver1.findElement(By.id("search-field-location")).sendKeys("Venice, FL");
-	      //click find jobs button
+	      //click find jobs button 
 	      driver1.findElement(By.id("findTechJobs")).click();
-	     //in case there no jobs found for keyword 
+	     
+	      
+	      //assign String value of CountId to a var
+	      	  String countOfPositions=null;
+	      	  
+	      	//in case there no jobs found for keyword   
 	      if(driver1.getTitle().equalsIgnoreCase("Jobs not found | Dice.com")) {
 	    	  System.out.println("for keyword - " + keyword + " 0 jobs found");
-	    	  driver1.close();
-	    	  continue;
-	      }else {
-	      driver1.findElement(By.id("posiCountId")).getText();
+	    	  driver1.navigate().back();
+	    	 continue loop;
+	    	 
+	      } else {
+	    	  
+	     countOfPositions  =   driver1.findElement(By.id("posiCountId")).getText();
+	     
 	      }
 	       
-	       //assign String value of CountId to a var
-	    	  String countOfPositions = driver1.findElement(By.id("posiCountId")).getText();
+	       
+	   
 	    	  //assign value of var String to an int var count
 	    	int  count = Integer.parseInt(countOfPositions.replaceAll(",", ""));
 	     
 	       
 	        //print out search result
 	    		 System.out.println("For keyword :" + keyword + " found : " + count + " positions");
-	    		 //close the object driver
-	    		 driver1.close();
+	    		 //navigate back to home page
+	    		 driver1.navigate().back();
 	    		 
 	      }
 	     } catch (NoSuchElementException e) {
